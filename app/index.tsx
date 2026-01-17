@@ -1,6 +1,7 @@
 import MovieCard from "@/components/MovieCard";
+import { useMovies } from "@/services/useMovies";
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -12,34 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
-  type Movie = {
-    id: string;
-    title: string;
-    release_date: string;
-    poster_path: string;
-    overview: string;
-  };
-
-  type MoviesResponse = Movie[];
-
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState<Movie[]>([]);
-
-  const getMovies = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/movie/popular");
-      const json = (await response.json()) as MoviesResponse;
-      setData(json);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getMovies();
-  }, []);
+  const { popular, topRated, upcoming, isLoading } = useMovies();
 
   return (
     <SafeAreaView className="flex-1 bg-black">
@@ -49,6 +23,7 @@ export default function Index() {
         className="flex-1 px-5"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ minHeight: "100%", paddingBottom: 10 }}
+        stickyHeaderIndices={[0]}
       >
         <Text className="text-white font-bold text-4xl">MoWizz</Text>
 
@@ -57,21 +32,51 @@ export default function Index() {
             <ActivityIndicator />
           ) : (
             <View className="flex-1 mt-5">
-              <Text className="text-white text-lg font-bold mt-5 mb-3">
+              <Text className="text-white text-lg font-bold mb-3">
                 Popular Movies
               </Text>
               <FlatList
                 className="mt-2 pb-32"
-                data={data}
-                numColumns={3}
-                scrollEnabled={false}
+                data={popular}
+                horizontal={true}
                 keyExtractor={({ id }) => id}
                 renderItem={({ item }) => <MovieCard {...item} />}
-                columnWrapperStyle={{
+                contentContainerStyle={{
                   justifyContent: "flex-start",
-                  gap: 20,
-                  paddingRight: 5,
-                  marginBottom: 10,
+                  gap: 10,
+                  paddingRight: 1,
+                }}
+              />
+              <Text className="text-white text-lg font-bold -mt-28 mb-3">
+                Top Rated Movies
+              </Text>
+              <FlatList
+                className="mt-2 pb-32"
+                data={topRated}
+                horizontal={true}
+                keyExtractor={({ id }) => id}
+                renderItem={({ item }) => <MovieCard {...item} />}
+                contentContainerStyle={{
+                  justifyContent: "flex-start",
+                  gap: 10,
+                  paddingRight: 1,
+                  marginBottom: 1,
+                }}
+              />
+              <Text className="text-white text-lg font-bold -mt-28 mb-3">
+                Upcoming Movies
+              </Text>
+              <FlatList
+                className="mt-2 pb-32"
+                data={upcoming}
+                horizontal={true}
+                keyExtractor={({ id }) => id}
+                renderItem={({ item }) => <MovieCard {...item} />}
+                contentContainerStyle={{
+                  justifyContent: "flex-start",
+                  gap: 10,
+                  paddingRight: 1,
+                  marginBottom: 1,
                 }}
               />
             </View>
