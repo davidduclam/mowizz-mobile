@@ -39,7 +39,7 @@ export default function Index() {
                 className="mt-2 pb-32"
                 data={popular}
                 horizontal={true}
-                keyExtractor={({ id }) => id}
+                keyExtractor={({ id }) => String(id)}
                 renderItem={({ item }) => <MovieCard {...item} />}
                 contentContainerStyle={{
                   justifyContent: "flex-start",
@@ -54,7 +54,7 @@ export default function Index() {
                 className="mt-2 pb-32"
                 data={topRated}
                 horizontal={true}
-                keyExtractor={({ id }) => id}
+                keyExtractor={({ id }) => String(id)}
                 renderItem={({ item }) => <MovieCard {...item} />}
                 contentContainerStyle={{
                   justifyContent: "flex-start",
@@ -70,7 +70,7 @@ export default function Index() {
                 className="mt-2 pb-32"
                 data={upcoming}
                 horizontal={true}
-                keyExtractor={({ id }) => id}
+                keyExtractor={({ id }) => String(id)}
                 renderItem={({ item }) => <MovieCard {...item} />}
                 contentContainerStyle={{
                   justifyContent: "flex-start",

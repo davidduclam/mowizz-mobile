@@ -1,14 +1,13 @@
+import { Movie } from "@/types/movie";
 import { Image, Text, TouchableOpacity } from "react-native";
 
-type Movie = {
-  id: string;
-  title: string;
-  release_date: string;
-  poster_path: string;
-  overview: string;
-};
-
-const MovieCard = ({ id, title, poster_path, release_date }: Movie) => {
+const MovieCard = ({
+  id,
+  title,
+  poster_path,
+  release_date,
+  vote_average,
+}: Movie) => {
   return (
     //<Link href={`/movies/${id}`} asChild>
     <TouchableOpacity className="w-32 mr-4">
@@ -22,6 +21,12 @@ const MovieCard = ({ id, title, poster_path, release_date }: Movie) => {
         resizeMode="cover"
       ></Image>
       <Text className="text-sm font-bold text-white mt-2">{title}</Text>
+      <Text className="text-xs text-white font-bold mt-1">
+        ⭐ {vote_average.toFixed(2)}
+      </Text>
+      <Text className="text-xs text-gray-400 font-medium mt-1">
+        {release_date?.split("-")[0]}
+      </Text>
     </TouchableOpacity>
     //</Link>
   );
