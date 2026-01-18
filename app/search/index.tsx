@@ -21,7 +21,7 @@ export default function SearchIndex() {
             className="px-10"
             data={popular}
             numColumns={3}
-            keyExtractor={({ id }) => id}
+            keyExtractor={({ id }) => String(id)}
             renderItem={({ item }) => <MovieCard {...item} />}
             columnWrapperStyle={{
               justifyContent: "center",
