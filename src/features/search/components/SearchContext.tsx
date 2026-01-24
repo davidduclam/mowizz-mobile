@@ -1,8 +1,9 @@
+import { SearchQuery } from "../types";
 import { createContext, ReactNode, useState } from "react";
 
 export const SearchContext = createContext<{
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
+  searchQuery: SearchQuery;
+  setSearchQuery: (query: SearchQuery) => void;
 }>({
   searchQuery: "",
   setSearchQuery: () => {},

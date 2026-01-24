@@ -9,6 +9,7 @@ Tailwind-style utility classes through NativeWind.
 - Home screen with horizontal rails for popular, top-rated, and upcoming movies.
 - Native tab navigation (Home + Search).
 - Movie cards with posters, ratings, and release year.
+- Movie details modal presented from a bottom sheet route.
 
 ## Tech Stack
 
@@ -20,11 +21,43 @@ Tailwind-style utility classes through NativeWind.
 ## Project Structure
 
 ```
-app/                # File-based routes (screens and layouts)
-components/         # Reusable UI components (MovieCard, etc.)
-services/           # API helpers and data hooks
-types/              # Shared TypeScript types
-assets/             # App icons and images
+app/                          # File-based routes (screens and layouts)
+  _layout.tsx                 # Root layout (providers)
+  globals.css                 # Global styles
+  (tabs)/                     # Tab routes (home, search)
+    _layout.tsx               # Tabs layout
+    index.tsx                 # Home tab route
+    search/
+      _layout.tsx             # Search stack layout (search bar)
+      index.tsx               # Search tab route
+  (modals)/                   # Modal routes (movie details)
+    _layout.tsx               # Modal presentation config
+    movie/
+      [id].tsx                # Movie detail modal
+src/                          # Feature and shared source modules
+  features/
+    movies/
+      api/
+        index.ts              # Movie API helpers
+      components/
+        MovieCard.tsx         # Movie card UI
+      hooks/
+        useMovieDetails.ts    # Single movie details hook
+        useMovies.ts          # Movie lists hook
+      screens/
+        HomeScreen.tsx        # Home UI
+      types.ts                # Movie types
+    search/
+      components/
+        SearchContext.tsx     # Search context provider
+      screens/
+        SearchScreen.tsx      # Search UI
+      types.ts                # Search types
+  shared/
+    components/               # Shared UI components (future)
+    lib/                      # Shared libs (future)
+    utils/                    # Shared utils (future)
+assets/                       # App icons and images
 ```
 
 ## Requirements
@@ -68,5 +101,6 @@ npm run web
 ## Notes
 
 - The movie API base URL is read from `EXPO_PUBLIC_API_BASE_URL` in development.
-- The `Search` screen is currently a placeholder with a native search bar in the
-  header and can be extended to wire up search queries.
+- The `Search` screen currently reuses popular movies; hook up search results
+  when the backend endpoint is available.
+- Modal routes live under `app/(modals)/` and are presented from the bottom.
