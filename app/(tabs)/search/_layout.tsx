@@ -1,6 +1,6 @@
-import { SearchContext } from "@/components/SearchContext";
 import { Stack } from "expo-router";
 import { useContext } from "react";
+import { SearchContext } from "../../../src/features/search/components/SearchContext";
 
 export default function SearchLayout() {
   const { setSearchQuery } = useContext(SearchContext);
@@ -10,7 +10,7 @@ export default function SearchLayout() {
       <Stack.Screen
         name="index"
         options={{
-          title: "Popular Movies",
+          headerShown: true,
           headerSearchBarOptions: {
             placement: "automatic",
             placeholder: "Search movies",

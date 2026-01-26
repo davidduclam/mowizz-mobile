@@ -1,12 +1,12 @@
-import MovieCard from "@/components/MovieCard";
-import { SearchContext } from "@/components/SearchContext";
-import { useMovies } from "@/services/useMovies";
+import MovieCard from "../../movies/components/MovieCard";
+import { useMovies } from "../../movies/hooks/useMovies";
+import { SearchContext } from "../components/SearchContext";
 import { useContext } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function SearchIndex() {
-  const { popular, topRated, upcoming, isLoading } = useMovies();
+export default function SearchScreen() {
+  const { popular, isLoading } = useMovies();
   const { searchQuery } = useContext(SearchContext);
 
   return (
