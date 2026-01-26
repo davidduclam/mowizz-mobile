@@ -10,7 +10,7 @@ export default function SearchLayout() {
       <Stack.Screen
         name="index"
         options={{
-          headerShown: false,
+          headerShown: true,
           headerSearchBarOptions: {
             placement: "automatic",
             placeholder: "Search movies",
