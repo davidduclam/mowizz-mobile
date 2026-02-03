@@ -11,6 +11,16 @@ export default function SearchLayout() {
         name="index"
         options={{
           headerShown: true,
+          headerStyle: {
+            backgroundColor: "black",
+          },
+          headerLargeTitle: false,
+          headerTitle: "Search",
+          headerTitleStyle: {
+            color: "white",
+            fontWeight: "bold",
+          },
+          headerTitleAlign: "left",
           headerSearchBarOptions: {
             placement: "automatic",
             placeholder: "Search movies",
