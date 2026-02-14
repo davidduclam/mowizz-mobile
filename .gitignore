@@ -42,3 +42,9 @@ app-example
 # generated native folders
 /ios
 /android
+
+# generated coverage folder
+coverage/
+
+# launch conifgs
+.vscode/launch.json
