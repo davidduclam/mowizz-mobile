@@ -13,6 +13,7 @@ export default function RootLayout() {
             headerShown: false,
             presentation: "modal",
             animation: "fade",
+            contentStyle: { backgroundColor: "transparent" },
           }}
         />
       </Stack>

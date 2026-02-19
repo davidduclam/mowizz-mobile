@@ -23,7 +23,7 @@ const MovieCard = ({
           }}
           className="w-23 h-52 rounded-lg"
           resizeMode="cover"
-        ></Image>
+        />
         <Text className="text-sm font-bold text-white mt-2">{title}</Text>
         <Text className="text-xs text-white font-bold mt-1">
           ⭐ {vote_average.toFixed(2)}

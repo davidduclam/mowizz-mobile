@@ -1,8 +1,5 @@
+import { API_BASE_URL } from "@shared/api";
 import { Movie } from "../types";
-
-export const API_BASE_URL = __DEV__
-  ? process.env.EXPO_PUBLIC_API_BASE_URL
-  : "http://localhost:8080";
 
 export async function fetchMovies(type: string) {
   const res = await fetch(`${API_BASE_URL}/movies/${type}`);

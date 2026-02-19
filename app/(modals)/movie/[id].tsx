@@ -2,15 +2,19 @@ import { useLocalSearchParams } from "expo-router";
 import { ActivityIndicator, Image, ScrollView, Text, View } from "react-native";
 import { useMovieDetails } from "../../../src/features/movies/hooks/useMovieDetails";
 
-export default function MovieDetailModal() {
+export default function MovieDetailsModal() {
   const { id } = useLocalSearchParams();
 
-  const { data: movie, loading } = useMovieDetails(id as string);
+  const { data: movie, loading, error } = useMovieDetails(id as string);
 
   return (
     <View className="bg-black flex-1">
       {loading ? (
         <ActivityIndicator />
+      ) : error ? (
+        <View className="flex-col items-start justify-center mt-5 px-5">
+          <Text className="color-white font-bold">{error.message}</Text>
+        </View>
       ) : (
         <ScrollView
           contentContainerStyle={{
