@@ -1,21 +1,25 @@
 # MoWizz Mobile
 
 MoWizz Mobile is an Expo + React Native app that surfaces popular, top-rated, and
-upcoming movies from a backend API. The UI uses native tabs via `expo-router` and
-Tailwind-style utility classes through NativeWind.
+upcoming movies plus TV shows from a backend API. The UI uses native tabs via
+`expo-router` and Tailwind-style utility classes through NativeWind.
 
 ## Features
 
-- Home screen with horizontal rails for popular, top-rated, and upcoming movies.
+- Discover home with horizontal rails for movies and TV shows.
 - Native tab navigation (Home + Search).
-- Movie cards with posters, ratings, and release year.
-- Movie details modal presented from a bottom sheet route.
+- Movie and TV cards with posters, ratings, and year.
+- Movie and TV details modals opened from card taps.
+- List/details loading and error states, plus TV empty state handling.
 
 ## Tech Stack
 
 - [Expo](https://expo.dev/) + [React Native](https://reactnative.dev/)
 - [expo-router](https://expo.github.io/router/) for file-based navigation
 - [NativeWind](https://www.nativewind.dev/) for Tailwind-style styling
+- [expo-blur](https://docs.expo.dev/versions/latest/sdk/blur-view/) and
+  [expo-linear-gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
+  for overlay/scrim effects
 - [TypeScript](https://www.typescriptlang.org/)
 
 ## Project Structure
@@ -30,12 +34,17 @@ app/                          # File-based routes (screens and layouts)
     search/
       _layout.tsx             # Search stack layout (search bar)
       index.tsx               # Search tab route
-  (modals)/                   # Modal routes (movie details)
+  (modals)/                   # Modal routes (movie + TV details)
     _layout.tsx               # Modal presentation config
     movie/
       [id].tsx                # Movie detail modal
+    tv-show/
+      [id].tsx                # TV show detail modal
 src/                          # Feature and shared source modules
   features/
+    discover/
+      screens/
+        HomeScreen.tsx        # Discover home UI (movies + tv shows)
     movies/
       api/
         index.ts              # Movie API helpers
@@ -44,9 +53,17 @@ src/                          # Feature and shared source modules
       hooks/
         useMovieDetails.ts    # Single movie details hook
         useMovies.ts          # Movie lists hook
-      screens/
-        HomeScreen.tsx        # Home UI
       types.ts                # Movie types
+    tv-shows/
+      api/
+        index.ts              # TV show API helpers
+        index.test.ts         # TV show API tests
+      components/
+        TvShowCard.tsx        # TV show card UI
+      hooks/
+        useTvShowDetails.ts   # Single TV show details hook
+        useTvShows.ts         # TV show lists hook
+      types.ts                # TV show types
     search/
       components/
         SearchContext.tsx     # Search context provider
@@ -54,9 +71,8 @@ src/                          # Feature and shared source modules
         SearchScreen.tsx      # Search UI
       types.ts                # Search types
   shared/
-    components/               # Shared UI components (future)
-    lib/                      # Shared libs (future)
-    utils/                    # Shared utils (future)
+    api/
+      index.ts                # Shared API base URL
 assets/                       # App icons and images
 ```
 
@@ -97,10 +113,11 @@ npm run web
 - `npm run ios` — open iOS simulator
 - `npm run web` — start the web build
 - `npm run lint` — run linting via Expo
+- `npm test` — run Jest tests
 
 ## Notes
 
-- The movie API base URL is read from `EXPO_PUBLIC_API_BASE_URL` in development.
+- The API base URL is read from `EXPO_PUBLIC_API_BASE_URL` in development.
 - The `Search` screen currently reuses popular movies; hook up search results
   when the backend endpoint is available.
-- Modal routes live under `app/(modals)/` and are presented from the bottom.
+- Modal routes live under `app/(modals)/`.
