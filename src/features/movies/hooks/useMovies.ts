@@ -7,10 +7,12 @@ export const useMovies = () => {
   const [topRated, setTopRated] = useState<Movie[]>([]);
   const [upcoming, setUpcoming] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     let active = true;
     setLoading(true);
+    setError(null);
 
     Promise.allSettled([
       fetchMovies("popular"),
@@ -29,6 +31,14 @@ export const useMovies = () => {
         if (upcomingResult.status === "fulfilled") {
           setUpcoming(upcomingResult.value);
         }
+
+        if (
+          popularResult.status === "rejected" &&
+          topRatedResult.status === "rejected" &&
+          upcomingResult.status === "rejected"
+        ) {
+          setError(new Error("Failed to load movies"));
+        }
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -39,5 +49,11 @@ export const useMovies = () => {
     };
   }, []);
 
-  return { popular, topRated, upcoming, isLoading: loading };
+  return {
+    popular,
+    topRated,
+    upcoming,
+    isLoadingMovies: loading,
+    errorMovies: error,
+  };
 };

@@ -1,3 +1,4 @@
+import { useTvShowDetails } from "@features/tv-shows/hooks/useTvShowDetails";
 import { useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef } from "react";
 import {
@@ -8,12 +9,11 @@ import {
   Text,
   View,
 } from "react-native";
-import { useMovieDetails } from "../../../src/features/movies/hooks/useMovieDetails";
 
-export default function MovieDetailsModal() {
+export default function TvShowDetailsModal() {
   const { id } = useLocalSearchParams();
 
-  const { data: movie, loading, error } = useMovieDetails(id as string);
+  const { data: movie, loading, error } = useTvShowDetails(id as string);
   const imageOpacity = useRef(new Animated.Value(0)).current;
   const textOpacity = useRef(new Animated.Value(0)).current;
   const hasAnimatedRef = useRef(false);
@@ -71,7 +71,7 @@ export default function MovieDetailsModal() {
               style={{ opacity: textOpacity }}
             >
               <Text className="font-bold color-white text-xl">
-                {movie?.title}
+                {movie?.name}
               </Text>
               <Text className="color-white text-l">{movie?.overview}</Text>
             </Animated.View>
