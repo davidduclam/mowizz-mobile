@@ -1,11 +1,46 @@
 import { useTvShowDetails } from "@features/tv-shows/hooks/useTvShowDetails";
 import { useLocalSearchParams } from "expo-router";
-import { ActivityIndicator, Image, ScrollView, Text, View } from "react-native";
+import { useCallback, useEffect, useRef } from "react";
+import {
+  ActivityIndicator,
+  Animated,
+  Image,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 
 export default function TvShowDetailsModal() {
   const { id } = useLocalSearchParams();
 
   const { data: movie, loading, error } = useTvShowDetails(id as string);
+  const imageOpacity = useRef(new Animated.Value(0)).current;
+  const textOpacity = useRef(new Animated.Value(0)).current;
+  const hasAnimatedRef = useRef(false);
+
+  useEffect(() => {
+    hasAnimatedRef.current = false;
+    imageOpacity.setValue(0);
+    textOpacity.setValue(0);
+  }, [id, imageOpacity, textOpacity]);
+
+  const runIntro = useCallback(() => {
+    if (hasAnimatedRef.current) return;
+    hasAnimatedRef.current = true;
+
+    Animated.sequence([
+      Animated.timing(imageOpacity, {
+        toValue: 1,
+        duration: 700,
+        useNativeDriver: true,
+      }),
+      Animated.timing(textOpacity, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [imageOpacity, textOpacity]);
 
   return (
     <View className="bg-black flex-1">
@@ -22,18 +57,24 @@ export default function TvShowDetailsModal() {
           }}
         >
           <View>
-            <Image
-              source={{
-                uri: `https://image.tmdb.org/t/p/original${movie?.backdrop_path}`,
-              }}
-              className="w-full h-[300px]"
-            />
-            <View className="flex-col items-start justify-center mt-5 px-5">
+            <Animated.View style={{ opacity: imageOpacity }}>
+              <Image
+                source={{
+                  uri: `https://image.tmdb.org/t/p/original${movie?.backdrop_path}`,
+                }}
+                className="w-full h-[300px]"
+                onLoadEnd={runIntro}
+              />
+            </Animated.View>
+            <Animated.View
+              className="flex-col items-start justify-center mt-5 px-5"
+              style={{ opacity: textOpacity }}
+            >
               <Text className="font-bold color-white text-xl">
                 {movie?.name}
               </Text>
               <Text className="color-white text-l">{movie?.overview}</Text>
-            </View>
+            </Animated.View>
           </View>
         </ScrollView>
       )}
