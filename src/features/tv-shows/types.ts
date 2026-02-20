@@ -1,7 +1,7 @@
-export type Movie = {
+export type TvShow = {
   id: number;
-  title: string;
-  release_date: string;
+  name: string;
+  first_air_date: string;
   overview: string;
   poster_path: string;
   backdrop_path: string;

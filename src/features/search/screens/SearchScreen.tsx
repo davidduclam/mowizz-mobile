@@ -1,18 +1,18 @@
-import MovieCard from "../../movies/components/MovieCard";
-import { useMovies } from "../../movies/hooks/useMovies";
-import { SearchContext } from "../components/SearchContext";
 import { useContext } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MovieCard from "../../movies/components/MovieCard";
+import { useMovies } from "../../movies/hooks/useMovies";
+import { SearchContext } from "../components/SearchContext";
 
 export default function SearchScreen() {
-  const { popular, isLoading } = useMovies();
+  const { popular, isLoadingMovies } = useMovies();
   const { searchQuery } = useContext(SearchContext);
 
   return (
     <SafeAreaView className=" flex-1 bg-black">
       <Text className="text-white text-lg font-bold mb-3">Popular Movies</Text>
-      {isLoading ? (
+      {isLoadingMovies ? (
         <ActivityIndicator />
       ) : (
         <View>
