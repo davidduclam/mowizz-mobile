@@ -23,8 +23,16 @@ import { useMovies } from "../../movies/hooks/useMovies";
 export default function HomeScreen() {
   const segments = useSegments() as unknown as string[];
   const isModalOpen = segments.includes("(modals)");
-  const { popular, topRated, upcoming, isLoading } = useMovies();
-  const { popularTvShow, topRatedTvShow, isLoadingTvShow } = useTvShows();
+  const { popular, topRated, upcoming, isLoadingMovies, errorMovies } =
+    useMovies();
+  const { popularTvShow, topRatedTvShow, isLoadingTvShow, errorTvShows } =
+    useTvShows();
+  const bothFailed = Boolean(errorMovies && errorTvShows);
+  const noTvContent =
+    !isLoadingTvShow &&
+    !errorTvShows &&
+    popularTvShow.length === 0 &&
+    topRatedTvShow.length === 0;
   const insets = useSafeAreaInsets();
   const scrollY = useRef(new Animated.Value(0)).current;
   const headerHeight = -20;
@@ -81,89 +89,119 @@ export default function HomeScreen() {
           )}
         >
           <View>
-            {isLoading && isLoadingTvShow ? (
+            {isLoadingMovies && isLoadingTvShow ? (
               <ActivityIndicator />
             ) : (
               <View className="flex-1 mt-5">
-                <Text className="text-white text-lg font-bold mb-3">
-                  Popular Movies
-                </Text>
-                <FlatList
-                  className="mt-2 pb-32"
-                  data={popular}
-                  horizontal={true}
-                  keyExtractor={({ id }) => String(id)}
-                  renderItem={({ item }) => <MovieCard {...item} />}
-                  contentContainerStyle={{
-                    justifyContent: "flex-start",
-                    gap: 10,
-                    paddingRight: 1,
-                  }}
-                />
-                <Text className="text-white text-lg font-bold -mt-28 mb-3">
-                  Upcoming Movies
-                </Text>
-                <FlatList
-                  className="mt-2 pb-32"
-                  data={upcoming}
-                  horizontal={true}
-                  keyExtractor={({ id }) => String(id)}
-                  renderItem={({ item }) => <MovieCard {...item} />}
-                  contentContainerStyle={{
-                    justifyContent: "flex-start",
-                    gap: 10,
-                    paddingRight: 1,
-                    marginBottom: 1,
-                  }}
-                />
-                <Text className="text-white text-lg font-bold -mt-28 mb-3">
-                  Top Rated Movies
-                </Text>
-                <FlatList
-                  className="mt-2 pb-32"
-                  data={topRated}
-                  horizontal={true}
-                  keyExtractor={({ id }) => String(id)}
-                  renderItem={({ item }) => <MovieCard {...item} />}
-                  contentContainerStyle={{
-                    justifyContent: "flex-start",
-                    gap: 10,
-                    paddingRight: 1,
-                    marginBottom: 1,
-                  }}
-                />
-                <Text className="text-white text-lg font-bold -mt-28 mb-3">
-                  Popular TV Shows
-                </Text>
-                <FlatList
-                  className="mt-2 pb-32"
-                  data={popularTvShow}
-                  horizontal={true}
-                  keyExtractor={({ id }) => String(id)}
-                  renderItem={({ item }) => <TvShowCard {...item} />}
-                  contentContainerStyle={{
-                    justifyContent: "flex-start",
-                    gap: 10,
-                    paddingRight: 1,
-                    marginBottom: 1,
-                  }}
-                />
-                <Text className="text-white text-lg font-bold -mt-28 mb-3">
-                  Top Rated TV Shows
-                </Text>
-                <FlatList
-                  className="mt-2 pb-32"
-                  data={topRatedTvShow}
-                  horizontal={true}
-                  keyExtractor={({ id }) => String(id)}
-                  renderItem={({ item }) => <TvShowCard {...item} />}
-                  contentContainerStyle={{
-                    justifyContent: "flex-start",
-                    gap: 10,
-                    paddingRight: 1,
-                    marginBottom: 1,
-                  }}
-                />
+                {bothFailed && (
+                  <Text className="text-red-300 font-semibold mb-3">
+                    Could not load content. Please try again.
+                  </Text>
+                )}
+                {errorMovies ? (
+                  <Text className="text-red-400 mb-3">
+                    Could not load movies.
+                  </Text>
+                ) : (
+                  <>
+                    <Text className="text-white text-lg font-bold mb-3">
+                      Popular Movies
+                    </Text>
+                    <FlatList
+                      className="mt-2 pb-32"
+                      data={popular}
+                      horizontal={true}
+                      keyExtractor={({ id }) => String(id)}
+                      renderItem={({ item }) => <MovieCard {...item} />}
+                      contentContainerStyle={{
+                        justifyContent: "flex-start",
+                        gap: 10,
+                        paddingRight: 1,
+                      }}
+                    />
+                    <Text className="text-white text-lg font-bold -mt-28 mb-3">
+                      Upcoming Movies
+                    </Text>
+                    <FlatList
+                      className="mt-2 pb-32"
+                      data={upcoming}
+                      horizontal={true}
+                      keyExtractor={({ id }) => String(id)}
+                      renderItem={({ item }) => <MovieCard {...item} />}
+                      contentContainerStyle={{
+                        justifyContent: "flex-start",
+                        gap: 10,
+                        paddingRight: 1,
+                        marginBottom: 1,
+                      }}
+                    />
+                    <Text className="text-white text-lg font-bold -mt-28 mb-3">
+                      Top Rated Movies
+                    </Text>
+                    <FlatList
+                      className="mt-2 pb-32"
+                      data={topRated}
+                      horizontal={true}
+                      keyExtractor={({ id }) => String(id)}
+                      renderItem={({ item }) => <MovieCard {...item} />}
+                      contentContainerStyle={{
+                        justifyContent: "flex-start",
+                        gap: 10,
+                        paddingRight: 1,
+                        marginBottom: 1,
+                      }}
+                    />
+                  </>
+                )}
+                {errorTvShows ? (
+                  <Text className="text-red-400 mb-3">
+                    Could not load TV shows.
+                  </Text>
+                ) : noTvContent ? (
+                  <View className="mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
+                    <Text className="text-white font-semibold">
+                      No TV shows available
+                    </Text>
+                    <Text className="text-gray-300 mt-1">
+                      Try again later or refresh to load TV content.
+                    </Text>
+                  </View>
+                ) : (
+                  <>
+                    <Text className="text-white text-lg font-bold -mt-28 mb-3">
+                      Popular TV Shows
+                    </Text>
+                    <FlatList
+                      className="mt-2 pb-32"
+                      data={popularTvShow}
+                      horizontal={true}
+                      keyExtractor={({ id }) => String(id)}
+                      renderItem={({ item }) => <TvShowCard {...item} />}
+                      contentContainerStyle={{
+                        justifyContent: "flex-start",
+                        gap: 10,
+                        paddingRight: 1,
+                        marginBottom: 1,
+                      }}
+                    />
+                    <Text className="text-white text-lg font-bold -mt-28 mb-3">
+                      Top Rated TV Shows
+                    </Text>
+                    <FlatList
+                      className="mt-2 pb-32"
+                      data={topRatedTvShow}
+                      horizontal={true}
+                      keyExtractor={({ id }) => String(id)}
+                      renderItem={({ item }) => <TvShowCard {...item} />}
+                      contentContainerStyle={{
+                        justifyContent: "flex-start",
+                        gap: 10,
+                        paddingRight: 1,
+                        marginBottom: 1,
+                      }}
+                    />
+                  </>
+                )}
               </View>
             )}
           </View>
