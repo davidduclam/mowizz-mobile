@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchSearch } from "../api";
+import { searchMedia } from "../api";
 import { SearchResult } from "../types";
 
 export const useSearch = (keyword: string) => {
@@ -12,7 +12,7 @@ export const useSearch = (keyword: string) => {
       let active = true;
       setLoading(true);
       setError(null);
-      fetchSearch(keyword)
+      searchMedia(keyword)
         .then((media) => active && setData(media))
         .catch((err) => {
           if (!active) return;
