@@ -80,7 +80,7 @@ export default function SearchScreen() {
             scrollEnabled={canScroll}
             bounces={canScroll}
             alwaysBounceVertical={canScroll}
-            keyExtractor={({ id }) => String(id)}
+            keyExtractor={({ id, media_type }) => `${media_type}-${id}`}
             renderItem={({ item }) =>
               item.media_type === "movie" ? (
                 <MovieCard {...item} />

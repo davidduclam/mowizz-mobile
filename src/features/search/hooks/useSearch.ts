@@ -8,8 +8,10 @@ export const useSearch = (keyword: string) => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    let active = true;
+
     const timeoutId = setTimeout(async () => {
-      let active = true;
+      if (!active) return;
       setLoading(true);
       setError(null);
       searchMedia(keyword)
@@ -21,12 +23,12 @@ export const useSearch = (keyword: string) => {
           );
         })
         .finally(() => active && setLoading(false));
-      return () => {
-        active = false;
-      };
     }, 500);
 
-    return () => clearTimeout(timeoutId);
+    return () => {
+      active = false;
+      clearTimeout(timeoutId);
+    };
   }, [keyword]);
 
   return { data, loading, error };
