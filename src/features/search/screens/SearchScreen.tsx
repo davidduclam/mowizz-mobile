@@ -57,6 +57,15 @@ export default function SearchScreen() {
             contentContainerStyle={{
               paddingBottom: 100,
             }}
+            ListHeaderComponent={
+              searchQuery.trim() && error ? (
+                <View className="mb-3 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2">
+                  <Text className="text-red-300">
+                    Could not load search results. Try again.
+                  </Text>
+                </View>
+              ) : null
+            }
           ></FlatList>
         </View>
       ) : (
@@ -89,6 +98,15 @@ export default function SearchScreen() {
             contentContainerStyle={{
               paddingBottom: 100,
             }}
+            ListHeaderComponent={
+              searchQuery.trim() && error ? (
+                <View className="mb-3 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2">
+                  <Text className="text-red-300">
+                    Could not load search results. Try again.
+                  </Text>
+                </View>
+              ) : null
+            }
             ListEmptyComponent={
               !loading && !error ? (
                 <View className="mt-10 px-5">
