@@ -11,19 +11,26 @@ export default function SearchLayout() {
         name="index"
         options={{
           headerShown: true,
+          headerTransparent: true,
+          headerShadowVisible: false,
           headerStyle: {
-            backgroundColor: "black",
+            backgroundColor: "transparent",
           },
-          headerLargeTitle: false,
+          headerLargeTitleEnabled: true,
           headerTitle: "Search",
           headerTitleStyle: {
+            color: "transparent",
+          },
+          headerLargeTitleStyle: {
             color: "white",
             fontWeight: "bold",
           },
           headerTitleAlign: "left",
           headerSearchBarOptions: {
             placement: "automatic",
-            placeholder: "Search movies",
+            placeholder: "Search",
+            hideNavigationBar: true,
+            hideWhenScrolling: true,
             onChangeText: (event) => setSearchQuery(event.nativeEvent.text),
           },
         }}

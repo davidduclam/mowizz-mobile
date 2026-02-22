@@ -1,9 +1,9 @@
-import { Movie } from "@features/movies/types";
 import { useEffect, useState } from "react";
 import { fetchSearch } from "../api";
+import { SearchResult } from "../types";
 
 export const useSearch = (keyword: string) => {
-  const [data, setData] = useState<Movie[]>([]);
+  const [data, setData] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -13,7 +13,7 @@ export const useSearch = (keyword: string) => {
       setLoading(true);
       setError(null);
       fetchSearch(keyword)
-        .then((movie) => active && setData(movie))
+        .then((media) => active && setData(media))
         .catch((err) => {
           if (!active) return;
           setError(
