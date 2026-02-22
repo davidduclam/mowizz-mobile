@@ -8,9 +8,11 @@ upcoming movies plus TV shows from a backend API. The UI uses native tabs via
 
 - Discover home with horizontal rails for movies and TV shows.
 - Native tab navigation (Home + Search).
+- Search movies and TV shows from the Search tab.
 - Movie and TV cards with posters, ratings, and year.
 - Movie and TV details modals opened from card taps.
 - List/details loading and error states, plus TV empty state handling.
+- Search loading, empty, and inline error states.
 
 ## Tech Stack
 
@@ -65,8 +67,13 @@ src/                          # Feature and shared source modules
         useTvShows.ts         # TV show lists hook
       types.ts                # TV show types
     search/
+      api/
+        index.ts              # Search API helpers (multi search)
+        index.test.ts         # Search API tests
       components/
         SearchContext.tsx     # Search context provider
+      hooks/
+        useSearch.ts          # Search hook
       screens/
         SearchScreen.tsx      # Search UI
       types.ts                # Search types
@@ -118,6 +125,6 @@ npm run web
 ## Notes
 
 - The API base URL is read from `EXPO_PUBLIC_API_BASE_URL` in development.
-- The `Search` screen currently reuses popular movies; hook up search results
-  when the backend endpoint is available.
+- Search uses the backend multi-search endpoint (`/search/multi`) to return
+  both movies and TV shows.
 - Modal routes live under `app/(modals)/`.
