@@ -58,7 +58,6 @@ export default function HomeScreen() {
     <View style={{ flex: 1 }}>
       <SafeAreaView edges={["left", "right"]} className="flex-1 bg-black">
         <StatusBar style="light" />
-
         <Animated.View
           style={{
             position: "absolute",
@@ -76,6 +75,7 @@ export default function HomeScreen() {
         <Animated.ScrollView
           className="flex-1 px-5"
           showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
             minHeight: "100%",
             paddingTop: insets.top + headerHeight,
@@ -111,6 +111,7 @@ export default function HomeScreen() {
                       className="mt-2 pb-32"
                       data={popular}
                       horizontal={true}
+                      showsHorizontalScrollIndicator={false}
                       keyExtractor={({ id }) => String(id)}
                       renderItem={({ item }) => <MovieCard {...item} />}
                       contentContainerStyle={{
@@ -126,6 +127,7 @@ export default function HomeScreen() {
                       className="mt-2 pb-32"
                       data={upcoming}
                       horizontal={true}
+                      showsHorizontalScrollIndicator={false}
                       keyExtractor={({ id }) => String(id)}
                       renderItem={({ item }) => <MovieCard {...item} />}
                       contentContainerStyle={{
@@ -142,6 +144,7 @@ export default function HomeScreen() {
                       className="mt-2 pb-32"
                       data={topRated}
                       horizontal={true}
+                      showsHorizontalScrollIndicator={false}
                       keyExtractor={({ id }) => String(id)}
                       renderItem={({ item }) => <MovieCard {...item} />}
                       contentContainerStyle={{
@@ -175,6 +178,7 @@ export default function HomeScreen() {
                       className="mt-2 pb-32"
                       data={popularTvShow}
                       horizontal={true}
+                      showsHorizontalScrollIndicator={false}
                       keyExtractor={({ id }) => String(id)}
                       renderItem={({ item }) => <TvShowCard {...item} />}
                       contentContainerStyle={{
@@ -191,6 +195,7 @@ export default function HomeScreen() {
                       className="mt-2 pb-32"
                       data={topRatedTvShow}
                       horizontal={true}
+                      showsHorizontalScrollIndicator={false}
                       keyExtractor={({ id }) => String(id)}
                       renderItem={({ item }) => <TvShowCard {...item} />}
                       contentContainerStyle={{

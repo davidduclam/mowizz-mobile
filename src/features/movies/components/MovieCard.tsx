@@ -19,7 +19,7 @@ const MovieCard = ({
           source={{
             uri: poster_path
               ? `https://image.tmdb.org/t/p/w500${poster_path}`
-              : "https://placehold.co/600x400/1a1a1a/ffffff.png",
+              : "https://placehold.co/300x400/1a1a1a/ffffff.png",
           }}
           className="w-23 h-52 rounded-lg"
           resizeMode="cover"
