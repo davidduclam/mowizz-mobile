@@ -1,18 +1,20 @@
+import MoviePosterCard from "@features/movies/components/MoviePosterCard";
 import TvShowCard from "@features/tv-shows/components/TvShowCard";
 import { useTvShows } from "@features/tv-shows/hooks/useTvShows";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import {
-  ActivityIndicator,
   Animated,
+  Dimensions,
   FlatList,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import Carousel from "react-native-reanimated-carousel";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -27,7 +29,6 @@ export default function HomeScreen() {
     useMovies();
   const { popularTvShow, topRatedTvShow, isLoadingTvShow, errorTvShows } =
     useTvShows();
-  const bothFailed = Boolean(errorMovies && errorTvShows);
   const noTvContent =
     !isLoadingTvShow &&
     !errorTvShows &&
@@ -53,6 +54,8 @@ export default function HomeScreen() {
     outputRange: [0, 1],
     extrapolate: "clamp",
   });
+
+  const width = Dimensions.get("window").width;
 
   return (
     <View style={{ flex: 1 }}>
@@ -88,43 +91,46 @@ export default function HomeScreen() {
             { useNativeDriver: true },
           )}
         >
-          <View>
-            {isLoadingMovies && isLoadingTvShow ? (
-              <ActivityIndicator />
+          <View className="flex-1 mt-5">
+            {isLoadingMovies ? (
+              <View className="-mb-10 -mt-10 -mx-5">
+                <View
+                  className="bg-white/10"
+                  style={{ width, height: width * 1.5 }}
+                />
+              </View>
+            ) : errorMovies ? (
+              <Text className="text-red-400 mb-3">Could not load movies.</Text>
             ) : (
-              <View className="flex-1 mt-5">
-                {bothFailed && (
-                  <Text className="text-red-300 font-semibold mb-3">
-                    Could not load content. Please try again.
-                  </Text>
-                )}
-                {errorMovies ? (
-                  <Text className="text-red-400 mb-3">
-                    Could not load movies.
-                  </Text>
-                ) : (
-                  <>
-                    <Text className="text-white text-lg font-bold mb-3">
-                      Popular Movies
+              <>
+                {popular.length === 0 ? (
+                  <View className="mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
+                    <Text className="text-white font-semibold">
+                      No popular movies available
                     </Text>
-                    <FlatList
-                      className="mt-2 pb-32"
+                    <Text className="text-gray-300 mt-1">Try again later.</Text>
+                  </View>
+                ) : (
+                  <View className="-mb-10 -mt-10 -mx-5">
+                    <Carousel
+                      autoPlay={true}
+                      autoPlayInterval={5000}
+                      loop={true}
+                      width={width}
+                      height={width * 1.5}
                       data={popular}
-                      horizontal={true}
-                      showsHorizontalScrollIndicator={false}
-                      keyExtractor={({ id }) => String(id)}
-                      renderItem={({ item }) => <MovieCard {...item} />}
-                      contentContainerStyle={{
-                        justifyContent: "flex-start",
-                        gap: 10,
-                        paddingRight: 1,
-                      }}
+                      mode="parallax"
+                      renderItem={({ item }) => <MoviePosterCard {...item} />}
                     />
-                    <Text className="text-white text-lg font-bold -mt-28 mb-3">
+                  </View>
+                )}
+                {upcoming.length > 0 && (
+                  <>
+                    <Text className="text-white text-lg font-bold -mt-30 mb-3">
                       Upcoming Movies
                     </Text>
                     <FlatList
-                      className="mt-2 pb-32"
+                      className="mt-30 pb-32"
                       data={upcoming}
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
@@ -137,11 +143,15 @@ export default function HomeScreen() {
                         marginBottom: 1,
                       }}
                     />
+                  </>
+                )}
+                {topRated.length > 0 && (
+                  <>
                     <Text className="text-white text-lg font-bold -mt-28 mb-3">
                       Top Rated Movies
                     </Text>
                     <FlatList
-                      className="mt-2 pb-32"
+                      className="mt-2 pb-10"
                       data={topRated}
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
@@ -156,58 +166,56 @@ export default function HomeScreen() {
                     />
                   </>
                 )}
-                {errorTvShows ? (
-                  <Text className="text-red-400 mb-3">
-                    Could not load TV shows.
-                  </Text>
-                ) : noTvContent ? (
-                  <View className="mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
-                    <Text className="text-white font-semibold">
-                      No TV shows available
-                    </Text>
-                    <Text className="text-gray-300 mt-1">
-                      Try again later or refresh to load TV content.
-                    </Text>
-                  </View>
-                ) : (
-                  <>
-                    <Text className="text-white text-lg font-bold -mt-28 mb-3">
-                      Popular TV Shows
-                    </Text>
-                    <FlatList
-                      className="mt-2 pb-32"
-                      data={popularTvShow}
-                      horizontal={true}
-                      showsHorizontalScrollIndicator={false}
-                      keyExtractor={({ id }) => String(id)}
-                      renderItem={({ item }) => <TvShowCard {...item} />}
-                      contentContainerStyle={{
-                        justifyContent: "flex-start",
-                        gap: 10,
-                        paddingRight: 1,
-                        marginBottom: 1,
-                      }}
-                    />
-                    <Text className="text-white text-lg font-bold -mt-28 mb-3">
-                      Top Rated TV Shows
-                    </Text>
-                    <FlatList
-                      className="mt-2 pb-32"
-                      data={topRatedTvShow}
-                      horizontal={true}
-                      showsHorizontalScrollIndicator={false}
-                      keyExtractor={({ id }) => String(id)}
-                      renderItem={({ item }) => <TvShowCard {...item} />}
-                      contentContainerStyle={{
-                        justifyContent: "flex-start",
-                        gap: 10,
-                        paddingRight: 1,
-                        marginBottom: 1,
-                      }}
-                    />
-                  </>
-                )}
+              </>
+            )}
+            {errorTvShows ? (
+              <Text className="text-red-400 mb-3">
+                Could not load TV shows.
+              </Text>
+            ) : noTvContent ? (
+              <View className="mb-4 rounded-xl border border-white/10 bg-white/5 p-4">
+                <Text className="text-white font-semibold">
+                  No TV shows available
+                </Text>
+                <Text className="text-gray-300 mt-1">Try again later.</Text>
               </View>
+            ) : (
+              <>
+                <Text className="text-white text-lg font-bold -mt-30 mb-3">
+                  Popular TV Shows
+                </Text>
+                <FlatList
+                  className="mt-2 pb-32"
+                  data={popularTvShow}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={({ id }) => String(id)}
+                  renderItem={({ item }) => <TvShowCard {...item} />}
+                  contentContainerStyle={{
+                    justifyContent: "flex-start",
+                    gap: 10,
+                    paddingRight: 1,
+                    marginBottom: 1,
+                  }}
+                />
+                <Text className="text-white text-lg font-bold -mt-28 mb-3">
+                  Top Rated TV Shows
+                </Text>
+                <FlatList
+                  className="mt-2 pb-32"
+                  data={topRatedTvShow}
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={({ id }) => String(id)}
+                  renderItem={({ item }) => <TvShowCard {...item} />}
+                  contentContainerStyle={{
+                    justifyContent: "flex-start",
+                    gap: 10,
+                    paddingRight: 1,
+                    marginBottom: 1,
+                  }}
+                />
+              </>
             )}
           </View>
         </Animated.ScrollView>
