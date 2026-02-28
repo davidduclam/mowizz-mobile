@@ -1,3 +1,4 @@
+import { getPosterUrl } from "@shared/api/tmdb";
 import { Link } from "expo-router";
 import { Image, Text, TouchableOpacity } from "react-native";
 import { TvShow } from "../types";
@@ -16,11 +17,7 @@ const TvShowCard = ({
     >
       <TouchableOpacity className="w-32 mr-4">
         <Image
-          source={{
-            uri: poster_path
-              ? `https://image.tmdb.org/t/p/w500${poster_path}`
-              : "https://placehold.co/600x400/1a1a1a/ffffff.png",
-          }}
+          source={{ uri: getPosterUrl(poster_path) }}
           className="w-23 h-52 rounded-lg"
           resizeMode="cover"
         />
