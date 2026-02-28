@@ -6,7 +6,7 @@ upcoming movies plus TV shows from a backend API. The UI uses native tabs via
 
 ## Features
 
-- Discover home with horizontal rails for movies and TV shows.
+- Discover home with a full-screen parallax hero carousel for popular movies, plus horizontal rails for upcoming, top-rated movies, and TV shows.
 - Native tab navigation (Home + Search).
 - Search movies and TV shows from the Search tab.
 - Movie and TV cards with posters, ratings, and year.
@@ -19,6 +19,7 @@ upcoming movies plus TV shows from a backend API. The UI uses native tabs via
 - [Expo](https://expo.dev/) + [React Native](https://reactnative.dev/)
 - [expo-router](https://expo.github.io/router/) for file-based navigation
 - [NativeWind](https://www.nativewind.dev/) for Tailwind-style styling
+- [react-native-reanimated-carousel](https://github.com/dohooo/react-native-reanimated-carousel) for the hero carousel
 - [expo-blur](https://docs.expo.dev/versions/latest/sdk/blur-view/) and
   [expo-linear-gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
   for overlay/scrim effects
@@ -51,7 +52,8 @@ src/                          # Feature and shared source modules
       api/
         index.ts              # Movie API helpers
       components/
-        MovieCard.tsx         # Movie card UI
+        MovieCard.tsx         # Movie card UI (horizontal rail)
+        MoviePosterCard.tsx   # Full-screen poster card for the hero carousel
       hooks/
         useMovieDetails.ts    # Single movie details hook
         useMovies.ts          # Movie lists hook
@@ -80,6 +82,7 @@ src/                          # Feature and shared source modules
   shared/
     api/
       index.ts                # Shared API base URL
+      tmdb.ts                 # TMDB image URL helper (getPosterUrl)
 assets/                       # App icons and images
 ```
 
