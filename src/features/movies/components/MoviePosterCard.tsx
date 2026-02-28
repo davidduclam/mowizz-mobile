@@ -1,11 +1,10 @@
 import { getPosterUrl } from "@shared/api/tmdb";
 import { Link } from "expo-router";
-import { Dimensions, Image, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity, useWindowDimensions } from "react-native";
 import { Movie } from "../types";
 
-const { width } = Dimensions.get("window");
-
 const MoviePosterCard = ({ id, poster_path }: Movie) => {
+  const { width } = useWindowDimensions();
   return (
     <Link
       href={{ pathname: "/(modals)/movie/[id]", params: { id: String(id) } }}

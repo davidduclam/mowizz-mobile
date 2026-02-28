@@ -124,40 +124,48 @@ export default function HomeScreen() {
                     />
                   </View>
                 )}
-                <Text className="text-white text-lg font-bold -mt-30 mb-3">
-                  Upcoming Movies
-                </Text>
-                <FlatList
-                  className="mt-30 pb-32"
-                  data={upcoming}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  keyExtractor={({ id }) => String(id)}
-                  renderItem={({ item }) => <MovieCard {...item} />}
-                  contentContainerStyle={{
-                    justifyContent: "flex-start",
-                    gap: 10,
-                    paddingRight: 1,
-                    marginBottom: 1,
-                  }}
-                />
-                <Text className="text-white text-lg font-bold -mt-28 mb-3">
-                  Top Rated Movies
-                </Text>
-                <FlatList
-                  className="mt-2 pb-10"
-                  data={topRated}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  keyExtractor={({ id }) => String(id)}
-                  renderItem={({ item }) => <MovieCard {...item} />}
-                  contentContainerStyle={{
-                    justifyContent: "flex-start",
-                    gap: 10,
-                    paddingRight: 1,
-                    marginBottom: 1,
-                  }}
-                />
+                {upcoming.length > 0 && (
+                  <>
+                    <Text className="text-white text-lg font-bold -mt-30 mb-3">
+                      Upcoming Movies
+                    </Text>
+                    <FlatList
+                      className="mt-30 pb-32"
+                      data={upcoming}
+                      horizontal={true}
+                      showsHorizontalScrollIndicator={false}
+                      keyExtractor={({ id }) => String(id)}
+                      renderItem={({ item }) => <MovieCard {...item} />}
+                      contentContainerStyle={{
+                        justifyContent: "flex-start",
+                        gap: 10,
+                        paddingRight: 1,
+                        marginBottom: 1,
+                      }}
+                    />
+                  </>
+                )}
+                {topRated.length > 0 && (
+                  <>
+                    <Text className="text-white text-lg font-bold -mt-28 mb-3">
+                      Top Rated Movies
+                    </Text>
+                    <FlatList
+                      className="mt-2 pb-10"
+                      data={topRated}
+                      horizontal={true}
+                      showsHorizontalScrollIndicator={false}
+                      keyExtractor={({ id }) => String(id)}
+                      renderItem={({ item }) => <MovieCard {...item} />}
+                      contentContainerStyle={{
+                        justifyContent: "flex-start",
+                        gap: 10,
+                        paddingRight: 1,
+                        marginBottom: 1,
+                      }}
+                    />
+                  </>
+                )}
               </>
             )}
             {errorTvShows ? (
