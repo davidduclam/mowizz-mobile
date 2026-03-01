@@ -3,7 +3,7 @@ import { Link } from "expo-router";
 import { Image, TouchableOpacity, useWindowDimensions } from "react-native";
 import { Movie } from "../types";
 
-const MoviePosterCard = ({ id, poster_path }: Movie) => {
+const MoviePosterCard = ({ id, posterPath }: Movie) => {
   const { width } = useWindowDimensions();
   return (
     <Link
@@ -12,7 +12,7 @@ const MoviePosterCard = ({ id, poster_path }: Movie) => {
     >
       <TouchableOpacity style={{ width }}>
         <Image
-          source={{ uri: getPosterUrl(poster_path) }}
+          source={{ uri: getPosterUrl(posterPath) }}
           style={{ width, height: width * 1.5 }}
           className="rounded-lg"
           resizeMode="cover"

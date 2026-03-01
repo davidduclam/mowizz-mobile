@@ -3,8 +3,8 @@ import { searchMedia } from ".";
 describe("searchMedia", () => {
   it("returns search results when the API responds successfully", async () => {
     const mockResults = [
-      { id: 1, media_type: "movie", title: "Movie A" },
-      { id: 2, media_type: "tv", name: "TV Show A" },
+      { id: 1, mediaType: "movie", title: "Movie A" },
+      { id: 2, mediaType: "tv", name: "TV Show A" },
     ];
     let requestedUrl = "";
 
