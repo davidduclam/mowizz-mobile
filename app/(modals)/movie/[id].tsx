@@ -60,7 +60,7 @@ export default function MovieDetailsModal() {
             <Animated.View style={{ opacity: imageOpacity }}>
               <Image
                 source={{
-                  uri: `https://image.tmdb.org/t/p/original${movie?.backdrop_path}`,
+                  uri: `https://image.tmdb.org/t/p/original${movie?.backdropPath}`,
                 }}
                 className="w-full h-[300px]"
                 onLoadEnd={runIntro}
