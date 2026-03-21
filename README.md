@@ -7,10 +7,12 @@ upcoming movies plus TV shows from a backend API. The UI uses native tabs via
 ## Features
 
 - Discover home with a full-screen parallax hero carousel for popular movies, plus horizontal rails for upcoming, top-rated movies, and TV shows.
-- Native tab navigation (Home + Search).
+- Native tab navigation (Home, Search, Watchlist).
 - Search movies and TV shows from the Search tab.
 - Movie and TV cards with posters, ratings, and year.
 - Movie and TV details modals opened from card taps.
+- Save and remove movies and TV shows to/from a personal watchlist from the detail modal.
+- Watchlist tab displaying all saved items, with loading, error, and empty states.
 - List/details loading and error states, plus TV empty state handling.
 - Search loading, empty, and inline error states.
 
@@ -31,12 +33,15 @@ upcoming movies plus TV shows from a backend API. The UI uses native tabs via
 app/                          # File-based routes (screens and layouts)
   _layout.tsx                 # Root layout (providers)
   globals.css                 # Global styles
-  (tabs)/                     # Tab routes (home, search)
+  (tabs)/                     # Tab routes (home, search, watchlist)
     _layout.tsx               # Tabs layout
     index.tsx                 # Home tab route
     search/
       _layout.tsx             # Search stack layout (search bar)
       index.tsx               # Search tab route
+    watchlist/
+      _layout.tsx             # Watchlist stack layout
+      index.tsx               # Watchlist tab route
   (modals)/                   # Modal routes (movie + TV details)
     _layout.tsx               # Modal presentation config
     movie/
@@ -52,8 +57,9 @@ src/                          # Feature and shared source modules
       api/
         index.ts              # Movie API helpers
       components/
-        MovieCard.tsx         # Movie card UI (horizontal rail)
-        MoviePosterCard.tsx   # Full-screen poster card for the hero carousel
+        MovieCard.tsx                 # Movie card UI (horizontal rail)
+        MoviePosterCard.tsx           # Full-screen poster card for the hero carousel
+        MoviePosterCardWatchlist.tsx  # Poster card for the watchlist grid
       hooks/
         useMovieDetails.ts    # Single movie details hook
         useMovies.ts          # Movie lists hook
@@ -63,7 +69,8 @@ src/                          # Feature and shared source modules
         index.ts              # TV show API helpers
         index.test.ts         # TV show API tests
       components/
-        TvShowCard.tsx        # TV show card UI
+        TvShowCard.tsx                 # TV show card UI
+        TvShowPosterCardWatchlist.tsx  # Poster card for the watchlist grid
       hooks/
         useTvShowDetails.ts   # Single TV show details hook
         useTvShows.ts         # TV show lists hook
@@ -79,6 +86,17 @@ src/                          # Feature and shared source modules
       screens/
         SearchScreen.tsx      # Search UI
       types.ts                # Search types
+    watchlist/
+      api/
+        index.ts              # Watchlist API helpers
+      components/
+        WatchlistContext.tsx  # Watchlist context provider
+      hooks/
+        useAddToWatchlist.ts  # Add to watchlist hook
+        useWatchlist.ts       # Watchlist data hook
+      screens/
+        WatchlistScreen.tsx   # Watchlist UI
+      types.ts                # Watchlist types
   shared/
     api/
       index.ts                # Shared API base URL
@@ -131,3 +149,4 @@ npm run web
 - Search uses the backend multi-search endpoint (`/search/multi`) to return
   both movies and TV shows.
 - Modal routes live under `app/(modals)/`.
+- The watchlist uses a single hardcoded user (no authentication); the user ID is set in `src/features/watchlist/api/index.ts`.
