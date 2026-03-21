@@ -1,4 +1,5 @@
 import { useTvShowDetails } from "@features/tv-shows/hooks/useTvShowDetails";
+import { useWatchlistContext } from "@features/watchlist/components/WatchlistContext";
 import { useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useRef } from "react";
 import {
@@ -7,6 +8,7 @@ import {
   Image,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -17,6 +19,7 @@ export default function TvShowDetailsModal() {
   const imageOpacity = useRef(new Animated.Value(0)).current;
   const textOpacity = useRef(new Animated.Value(0)).current;
   const hasAnimatedRef = useRef(false);
+  const { add, remove, isInWatchlist } = useWatchlistContext();
 
   useEffect(() => {
     hasAnimatedRef.current = false;
@@ -62,7 +65,7 @@ export default function TvShowDetailsModal() {
                 source={{
                   uri: `https://image.tmdb.org/t/p/original${movie?.backdropPath}`,
                 }}
-                className="w-full h-[300px]"
+                className="w-full aspect-video"
                 onLoadEnd={runIntro}
               />
             </Animated.View>
@@ -70,9 +73,26 @@ export default function TvShowDetailsModal() {
               className="flex-col items-start justify-center mt-5 px-5"
               style={{ opacity: textOpacity }}
             >
-              <Text className="font-bold color-white text-xl">
+              <Text className="font-bold color-white text-2xl self-center text-">
                 {movie?.name}
               </Text>
+              <Text className="mt-2 color-white text-lg self-center">
+                TV show • {movie?.firstAirDate.split("-")[0]}
+              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  isInWatchlist(movie?.id!, "tv")
+                    ? remove(movie?.id!, "tv")
+                    : add(movie?.id!, "tv")
+                }
+                className={`mt-4 mb-5 rounded-full px-6 py-4 self-center w-full ${isInWatchlist(movie?.id!, "tv") ? "bg-red-500" : "bg-blue-500"}`}
+              >
+                <Text className="text-white font-semibold self-center">
+                  {isInWatchlist(movie?.id!, "tv")
+                    ? "Remove from watchlist"
+                    : "Add to watchlist"}
+                </Text>
+              </TouchableOpacity>
               <Text className="color-white text-l">{movie?.overview}</Text>
             </Animated.View>
           </View>
