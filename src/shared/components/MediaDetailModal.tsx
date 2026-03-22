@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type MediaDetailModalProps = {
   id: string;
@@ -61,7 +62,9 @@ export default function MediaDetailModal({
   return (
     <View className="bg-black flex-1">
       {loading ? (
-        <ActivityIndicator />
+        <SafeAreaView className="mt-safe">
+          <ActivityIndicator />
+        </SafeAreaView>
       ) : error ? (
         <View className="flex-col items-start justify-center mt-5 px-5">
           <Text className="color-white font-bold">{error.message}</Text>
