@@ -56,6 +56,7 @@ src/                          # Feature and shared source modules
     movies/
       api/
         index.ts              # Movie API helpers
+        index.test.ts         # Movie API tests
       components/
         MovieCard.tsx                 # Movie card UI (horizontal rail)
         MoviePosterCard.tsx           # Full-screen poster card for the hero carousel
@@ -91,9 +92,6 @@ src/                          # Feature and shared source modules
         index.ts              # Watchlist API helpers
       components/
         WatchlistContext.tsx  # Watchlist context provider
-      hooks/
-        useAddToWatchlist.ts  # Add to watchlist hook
-        useWatchlist.ts       # Watchlist data hook
       screens/
         WatchlistScreen.tsx   # Watchlist UI
       types.ts                # Watchlist types
@@ -101,6 +99,8 @@ src/                          # Feature and shared source modules
     api/
       index.ts                # Shared API base URL
       tmdb.ts                 # TMDB image URL helper (getPosterUrl)
+    components/
+      MediaDetailModal.tsx    # Shared detail modal (movie + TV show)
 assets/                       # App icons and images
 ```
 
