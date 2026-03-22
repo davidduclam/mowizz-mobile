@@ -5,7 +5,7 @@ export default function TabsLayout() {
     <NativeTabs minimizeBehavior="onScrollDown">
       <NativeTabs.Trigger name="index">
         <Label>Home</Label>
-        <Icon sf={{ default: "tv", selected: "tv.fill" }} />
+        <Icon sf={{ default: "house", selected: "house.fill" }} drawable="custom_home_drawable" />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="watchlist">
         <Label>Watchlist</Label>
