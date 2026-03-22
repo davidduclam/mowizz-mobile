@@ -48,3 +48,6 @@ coverage/
 
 # launch conifgs
 .vscode/launch.json
+
+# IntelliJ / JetBrains IDEs
+.idea/

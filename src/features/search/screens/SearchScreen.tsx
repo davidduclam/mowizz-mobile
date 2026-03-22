@@ -33,7 +33,9 @@ export default function SearchScreen() {
     <SafeAreaView edges={["left", "right"]} className="flex-1 bg-black">
       {/* <Text className="text-white text-lg font-bold mb-3">Popular Movies</Text> */}
       {loading ? (
-        <ActivityIndicator />
+        <SafeAreaView className="mt-safe">
+          <ActivityIndicator />
+        </SafeAreaView>
       ) : searchQuery === "" ? (
         <View>
           <FlatList

@@ -22,9 +22,11 @@ const MovieCard = ({
           resizeMode="cover"
         />
         <Text className="text-sm font-bold text-white mt-2">{title}</Text>
-        <Text className="text-xs text-white font-bold mt-1">
-          ⭐ {voteAverage.toFixed(2)}
-        </Text>
+        {!!voteAverage && (
+          <Text className="text-xs text-white font-bold mt-1">
+            ⭐ {voteAverage.toFixed(1)}
+          </Text>
+        )}
         <Text className="text-xs text-gray-400 font-medium mt-1">
           {releaseDate?.split("-")[0]}
         </Text>
