@@ -4,6 +4,8 @@ MoWizz Mobile is an Expo + React Native app that surfaces popular, top-rated, an
 upcoming movies plus TV shows from a backend API. The UI uses native tabs via
 `expo-router` and Tailwind-style utility classes through NativeWind.
 
+https://github.com/user-attachments/assets/c7ddedc0-f7ab-4c06-b281-fd838017c218
+
 ## Features
 
 - Discover home with a full-screen parallax hero carousel for popular movies, plus horizontal rails for upcoming, top-rated movies, and TV shows.
