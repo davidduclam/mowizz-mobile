@@ -17,7 +17,8 @@ type MediaDetailModalProps = {
   error: Error | null;
   backdropPath?: string;
   tmdbId?: number;
-  mediaType: "movie" | "tv";
+  mediaType: "movie" | "tv-show";
+  overview?: string;
   children?: React.ReactNode;
 };
 
@@ -28,6 +29,7 @@ export default function MediaDetailModal({
   backdropPath,
   tmdbId,
   mediaType,
+  overview,
   children,
 }: MediaDetailModalProps) {
   const imageOpacity = useRef(new Animated.Value(0)).current;
@@ -100,6 +102,9 @@ export default function MediaDetailModal({
                     : "Add to watchlist"}
                 </Text>
               </TouchableOpacity>
+              {overview && (
+                <Text className="color-white text-l">{overview}</Text>
+              )}
             </Animated.View>
           </View>
         </ScrollView>

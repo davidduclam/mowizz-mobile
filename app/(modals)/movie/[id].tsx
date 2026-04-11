@@ -15,6 +15,7 @@ export default function MovieDetailsModal() {
       backdropPath={movie?.backdropPath}
       tmdbId={movie?.id}
       mediaType="movie"
+      overview={movie?.overview}
     >
       <Text className="font-bold color-white text-2xl self-center">
         {movie?.title}
@@ -22,7 +23,6 @@ export default function MovieDetailsModal() {
       <Text className="mt-2 color-white text-lg self-center">
         Movie • {movie?.releaseDate?.split("-")[0]}
       </Text>
-      <Text className="color-white text-l mt-4">{movie?.overview}</Text>
     </MediaDetailModal>
   );
 }

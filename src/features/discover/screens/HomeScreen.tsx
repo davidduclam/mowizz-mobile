@@ -1,5 +1,4 @@
-import MoviePosterCard from "@features/movies/components/MoviePosterCard";
-import TvShowCard from "@features/tv-shows/components/TvShowCard";
+import MoviePosterCardCarousel from "@features/movies/components/MoviePosterCardCarousel";
 import { useTvShows } from "@features/tv-shows/hooks/useTvShows";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
@@ -19,8 +18,8 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import MovieCard from "../../movies/components/MovieCard";
 import { useMovies } from "../../movies/hooks/useMovies";
+import MediaPosterCard from "@shared/components/MediaPosterCard";
 
 export default function HomeScreen() {
   const segments = useSegments() as unknown as string[];
@@ -120,7 +119,9 @@ export default function HomeScreen() {
                       height={width * 1.5}
                       data={popular}
                       mode="parallax"
-                      renderItem={({ item }) => <MoviePosterCard {...item} />}
+                      renderItem={({ item }) => (
+                        <MoviePosterCardCarousel {...item} />
+                      )}
                     />
                   </View>
                 )}
@@ -130,16 +131,19 @@ export default function HomeScreen() {
                       Upcoming Movies
                     </Text>
                     <FlatList
-                      className="mt-30 pb-32"
+                      className="mt-30 pb-32 -mx-5"
                       data={upcoming}
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
                       keyExtractor={({ id }) => String(id)}
-                      renderItem={({ item }) => <MovieCard {...item} />}
+                      renderItem={({ item }) => (
+                        <MediaPosterCard mediaType={"movie"} {...item} />
+                      )}
                       contentContainerStyle={{
                         justifyContent: "flex-start",
                         gap: 10,
-                        paddingRight: 1,
+                        paddingLeft: 20,
+                        paddingRight: 20,
                         marginBottom: 1,
                       }}
                     />
@@ -151,16 +155,19 @@ export default function HomeScreen() {
                       Top Rated Movies
                     </Text>
                     <FlatList
-                      className="mt-2 pb-10"
+                      className="mt-2 pb-1 -mx-5"
                       data={topRated}
                       horizontal={true}
                       showsHorizontalScrollIndicator={false}
                       keyExtractor={({ id }) => String(id)}
-                      renderItem={({ item }) => <MovieCard {...item} />}
+                      renderItem={({ item }) => (
+                        <MediaPosterCard mediaType={"movie"} {...item} />
+                      )}
                       contentContainerStyle={{
                         justifyContent: "flex-start",
                         gap: 10,
-                        paddingRight: 1,
+                        paddingLeft: 20,
+                        paddingRight: 20,
                         marginBottom: 1,
                       }}
                     />
@@ -185,16 +192,19 @@ export default function HomeScreen() {
                   Popular TV Shows
                 </Text>
                 <FlatList
-                  className="mt-2 pb-32"
+                  className="mt-2 pb-32 -mx-5"
                   data={popularTvShow}
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                   keyExtractor={({ id }) => String(id)}
-                  renderItem={({ item }) => <TvShowCard {...item} />}
+                  renderItem={({ item }) => (
+                    <MediaPosterCard mediaType={"tv-show"} {...item} />
+                  )}
                   contentContainerStyle={{
                     justifyContent: "flex-start",
                     gap: 10,
-                    paddingRight: 1,
+                    paddingLeft: 20,
+                    paddingRight: 20,
                     marginBottom: 1,
                   }}
                 />
@@ -202,16 +212,19 @@ export default function HomeScreen() {
                   Top Rated TV Shows
                 </Text>
                 <FlatList
-                  className="mt-2 pb-32"
+                  className="mt-2 pb-32 -mx-5"
                   data={topRatedTvShow}
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                   keyExtractor={({ id }) => String(id)}
-                  renderItem={({ item }) => <TvShowCard {...item} />}
+                  renderItem={({ item }) => (
+                    <MediaPosterCard mediaType={"tv-show"} {...item} />
+                  )}
                   contentContainerStyle={{
                     justifyContent: "flex-start",
                     gap: 10,
-                    paddingRight: 1,
+                    paddingLeft: 20,
+                    paddingRight: 20,
                     marginBottom: 1,
                   }}
                 />

@@ -8,13 +8,11 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import TvShowCard from "@features/tv-shows/components/TvShowCard";
 import { BlurView } from "expo-blur";
 import { useSegments } from "expo-router";
-import MovieCard from "../../movies/components/MovieCard";
 import { SearchContext } from "../components/SearchContext";
 import { useSearch } from "../hooks/useSearch";
+import MediaPosterCard from "@shared/components/MediaPosterCard";
 
 export default function SearchScreen() {
   const segments = useSegments() as unknown as string[];
@@ -47,12 +45,20 @@ export default function SearchScreen() {
             scrollEnabled={canScroll}
             bounces={canScroll}
             alwaysBounceVertical={canScroll}
-            keyExtractor={({ id }) => String(id)}
-            renderItem={({ item }) => <MovieCard {...item} />}
+            keyExtractor={(item, index) =>
+              item ? String(item.id) : `placeholder-${index}`
+            }
+            renderItem={({ item }) =>
+              item ? (
+                <MediaPosterCard mediaType="movie" {...item} />
+              ) : (
+                <View style={{ flex: 1 }} />
+              )
+            }
             contentInsetAdjustmentBehavior="automatic"
             columnWrapperStyle={{
-              //justifyContent: "center",
-              gap: 0,
+              justifyContent: "center",
+              gap: 10,
               marginVertical: 8,
               marginHorizontal: -25,
             }}
@@ -83,17 +89,11 @@ export default function SearchScreen() {
             bounces={canScroll}
             alwaysBounceVertical={canScroll}
             keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
-            renderItem={({ item }) =>
-              item.mediaType === "movie" ? (
-                <MovieCard {...item} />
-              ) : (
-                <TvShowCard {...item} />
-              )
-            }
+            renderItem={({ item }) => <MediaPosterCard {...item} />}
             contentInsetAdjustmentBehavior="automatic"
             columnWrapperStyle={{
-              //justifyContent: "center",
-              gap: 0,
+              justifyContent: "center",
+              gap: 10,
               marginVertical: 8,
               marginHorizontal: -25,
             }}
