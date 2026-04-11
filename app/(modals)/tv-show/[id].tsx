@@ -14,7 +14,8 @@ export default function TvShowDetailsModal() {
       error={error}
       backdropPath={show?.backdropPath}
       tmdbId={show?.id}
-      mediaType="tv"
+      mediaType="tv-show"
+      overview={show?.overview}
     >
       <Text className="font-bold color-white text-2xl self-center">
         {show?.name}
@@ -22,7 +23,6 @@ export default function TvShowDetailsModal() {
       <Text className="mt-2 color-white text-lg self-center">
         TV show • {show?.firstAirDate?.split("-")[0]}
       </Text>
-      <Text className="color-white text-l mt-4">{show?.overview}</Text>
     </MediaDetailModal>
   );
 }

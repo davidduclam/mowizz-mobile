@@ -1,5 +1,3 @@
-import MoviePosterCardWatchlist from "@features/movies/components/MoviePosterCardWatchlist";
-import TvShowPosterCardWatchlist from "@features/tv-shows/components/TvShowPosterCardWatchlist";
 import { BlurView } from "expo-blur";
 import { useNavigation, useSegments } from "expo-router";
 import { useEffect, useMemo, useRef } from "react";
@@ -12,6 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useWatchlistContext } from "../components/WatchlistContext";
+import MediaPosterCardWatchlist from "@shared/components/MediaPosterCardWatchlist";
 
 export default function WatchlistScreen() {
   const segments = useSegments() as unknown as string[];
@@ -73,15 +72,11 @@ export default function WatchlistScreen() {
             numColumns={2}
             keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
             ListEmptyComponent={
-              <Text className="text-white text-center mt-8">Your watchlist is empty.</Text>
+              <Text className="text-white text-center mt-8">
+                Your watchlist is empty.
+              </Text>
             }
-            renderItem={({ item }) =>
-              item.mediaType === "movie" ? (
-                <MoviePosterCardWatchlist {...item} />
-              ) : (
-                <TvShowPosterCardWatchlist {...item} />
-              )
-            }
+            renderItem={({ item }) => <MediaPosterCardWatchlist {...item} />}
             onScroll={Animated.event(
               [{ nativeEvent: { contentOffset: { y: scrollY } } }],
               { useNativeDriver: true },

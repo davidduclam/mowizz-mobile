@@ -3,7 +3,7 @@ import { Link } from "expo-router";
 import { Image, TouchableOpacity, useWindowDimensions } from "react-native";
 import { Movie } from "../types";
 
-const MoviePosterCard = ({ id, posterPath }: Movie) => {
+const MoviePosterCardCarousel = ({ id, posterPath }: Movie) => {
   const { width } = useWindowDimensions();
   return (
     <Link
@@ -22,4 +22,4 @@ const MoviePosterCard = ({ id, posterPath }: Movie) => {
   );
 };
 
-export default MoviePosterCard;
+export default MoviePosterCardCarousel;
