@@ -1,50 +1,69 @@
 import { useMovies } from "@features/movies/hooks/useMovies";
-import React, { useContext, useMemo, useState } from "react";
+import MediaPosterCard from "@shared/components/MediaPosterCard";
+import ScreenBackground from "@shared/components/ScreenBackground";
+import { BlurView } from "expo-blur";
+import { useSegments } from "expo-router";
+import React, { useContext, useRef } from "react";
 import {
   ActivityIndicator,
-  FlatList,
+  Animated,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { BlurView } from "expo-blur";
-import { useSegments } from "expo-router";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { SearchContext } from "../components/SearchContext";
 import { useSearch } from "../hooks/useSearch";
-import MediaPosterCard from "@shared/components/MediaPosterCard";
 
 export default function SearchScreen() {
   const segments = useSegments() as unknown as string[];
   const isModalOpen = segments.includes("(modals)");
   const { searchQuery } = useContext(SearchContext);
-  const { data: movie, loading, error } = useSearch(searchQuery as string);
+  const {
+    data: searchResults,
+    loading,
+    error,
+  } = useSearch(searchQuery as string);
   const { popular } = useMovies();
-  const [listHeight, setListHeight] = useState(0);
-  const [contentHeight, setContentHeight] = useState(0);
-  const canScroll = useMemo(
-    () => contentHeight > listHeight + 1,
-    [contentHeight, listHeight],
-  );
+  const insets = useSafeAreaInsets();
+  const scrollY = useRef(new Animated.Value(0)).current;
+
+  const titleOpacity = scrollY.interpolate({
+    inputRange: [0, 20],
+    outputRange: [1, 0],
+    extrapolate: "clamp",
+  });
 
   return (
-    <SafeAreaView edges={["left", "right"]} className="flex-1 bg-black">
-      {/* <Text className="text-white text-lg font-bold mb-3">Popular Movies</Text> */}
-      {loading ? (
-        <SafeAreaView className="mt-safe">
-          <ActivityIndicator />
-        </SafeAreaView>
-      ) : searchQuery === "" ? (
-        <View>
-          <FlatList
+    <View style={{ flex: 1 }}>
+      <ScreenBackground />
+      <SafeAreaView edges={["left", "right"]} className="flex-1 bg-transparent">
+        <Animated.View
+          pointerEvents="none"
+          style={{
+            position: "absolute",
+            top: insets.top,
+            left: 20,
+            right: 20,
+            zIndex: 10,
+            opacity: titleOpacity,
+          }}
+        >
+          <Text className="text-white font-bold text-4xl">Search</Text>
+        </Animated.View>
+
+        {loading ? (
+          <SafeAreaView className="mt-safe">
+            <ActivityIndicator />
+          </SafeAreaView>
+        ) : searchQuery === "" ? (
+          <Animated.FlatList
             className="px-10"
             data={popular}
             numColumns={3}
-            onLayout={(event) => setListHeight(event.nativeEvent.layout.height)}
-            onContentSizeChange={(_, height) => setContentHeight(height)}
-            scrollEnabled={canScroll}
-            bounces={canScroll}
-            alwaysBounceVertical={canScroll}
             keyExtractor={(item, index) =>
               item ? String(item.id) : `placeholder-${index}`
             }
@@ -55,7 +74,12 @@ export default function SearchScreen() {
                 <View style={{ flex: 1 }} />
               )
             }
-            contentInsetAdjustmentBehavior="automatic"
+            contentInsetAdjustmentBehavior="never"
+            scrollEventThrottle={16}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true },
+            )}
             columnWrapperStyle={{
               justifyContent: "center",
               gap: 10,
@@ -63,34 +87,23 @@ export default function SearchScreen() {
               marginHorizontal: -25,
             }}
             contentContainerStyle={{
+              paddingTop: insets.top + 48,
               paddingBottom: 100,
             }}
-            ListHeaderComponent={
-              searchQuery.trim() && error ? (
-                <View className="mb-3 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2">
-                  <Text className="text-red-300">
-                    Could not load search results. Try again.
-                  </Text>
-                </View>
-              ) : null
-            }
-          ></FlatList>
-        </View>
-      ) : (
-        <View>
-          {/*<Text className="text-white">Search Results for {searchQuery}</Text>*/}
-          <FlatList
+          />
+        ) : (
+          <Animated.FlatList
             className="px-10"
-            data={movie}
+            data={searchResults}
             numColumns={3}
-            onLayout={(event) => setListHeight(event.nativeEvent.layout.height)}
-            onContentSizeChange={(_, height) => setContentHeight(height)}
-            scrollEnabled={canScroll}
-            bounces={canScroll}
-            alwaysBounceVertical={canScroll}
             keyExtractor={({ id, mediaType }) => `${mediaType}-${id}`}
             renderItem={({ item }) => <MediaPosterCard {...item} />}
-            contentInsetAdjustmentBehavior="automatic"
+            contentInsetAdjustmentBehavior="never"
+            scrollEventThrottle={16}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true },
+            )}
             columnWrapperStyle={{
               justifyContent: "center",
               gap: 10,
@@ -98,10 +111,11 @@ export default function SearchScreen() {
               marginHorizontal: -25,
             }}
             contentContainerStyle={{
+              paddingTop: insets.top + 48,
               paddingBottom: 100,
             }}
             ListHeaderComponent={
-              searchQuery.trim() && error ? (
+              error ? (
                 <View className="mb-3 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2">
                   <Text className="text-red-300">
                     Could not load search results. Try again.
@@ -112,26 +126,22 @@ export default function SearchScreen() {
             ListEmptyComponent={
               !loading && !error ? (
                 <View className="mt-10 px-5">
-                  <Text className="text-center text-white">
-                    {searchQuery.trim()
-                      ? "No media found"
-                      : "Search for a movie or TV show"}
-                  </Text>
+                  <Text className="text-center text-white">No media found</Text>
                 </View>
               ) : null
             }
           />
-        </View>
-      )}
-      <BlurView
-        intensity={35}
-        tint="dark"
-        pointerEvents="none"
-        style={[
-          StyleSheet.absoluteFillObject,
-          { opacity: isModalOpen ? 1 : 0 },
-        ]}
-      />
-    </SafeAreaView>
+        )}
+        <BlurView
+          intensity={35}
+          tint="dark"
+          pointerEvents="none"
+          style={[
+            StyleSheet.absoluteFillObject,
+            { opacity: isModalOpen ? 1 : 0 },
+          ]}
+        />
+      </SafeAreaView>
+    </View>
   );
 }

@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import YoutubePlayer from "react-native-youtube-iframe";
+import ScreenBackground from "@shared/components/ScreenBackground";
 
 type MediaDetailModalProps = {
   id: string;
@@ -69,7 +70,8 @@ export default function MediaDetailModal({
   }, [imageOpacity, textOpacity]);
 
   return (
-    <View className="bg-black flex-1">
+    <View className="flex-1">
+      <ScreenBackground />
       {loading ? (
         <SafeAreaView className="mt-safe">
           <ActivityIndicator />

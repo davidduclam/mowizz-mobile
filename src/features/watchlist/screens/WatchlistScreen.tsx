@@ -1,3 +1,5 @@
+import MediaPosterCardWatchlist from "@shared/components/MediaPosterCardWatchlist";
+import ScreenBackground from "@shared/components/ScreenBackground";
 import { BlurView } from "expo-blur";
 import { useNavigation, useSegments } from "expo-router";
 import { useEffect, useMemo, useRef } from "react";
@@ -10,7 +12,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useWatchlistContext } from "../components/WatchlistContext";
-import MediaPosterCardWatchlist from "@shared/components/MediaPosterCardWatchlist";
 
 export default function WatchlistScreen() {
   const segments = useSegments() as unknown as string[];
@@ -53,7 +54,9 @@ export default function WatchlistScreen() {
   }, [navigation, titleOpacity]);
 
   return (
-    <SafeAreaView edges={["left", "right"]} className="flex-1 bg-black">
+    <View style={{ flex: 1 }}>
+      <ScreenBackground />
+      <SafeAreaView edges={["left", "right"]} className="flex-1 bg-transparent">
       <View className="flex-1">
         {loading ? (
           <SafeAreaView className="mt-safe">
@@ -103,5 +106,6 @@ export default function WatchlistScreen() {
         ]}
       />
     </SafeAreaView>
+    </View>
   );
 }
