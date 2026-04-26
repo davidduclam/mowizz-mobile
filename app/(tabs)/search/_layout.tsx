@@ -16,15 +16,8 @@ export default function SearchLayout() {
           headerStyle: {
             backgroundColor: "transparent",
           },
-          headerLargeTitleEnabled: true,
-          headerTitle: "Search",
-          headerTitleStyle: {
-            color: "transparent",
-          },
-          headerLargeTitleStyle: {
-            color: "white",
-            fontWeight: "bold",
-          },
+          headerLargeTitleEnabled: false,
+          headerTitle: "",
           headerTitleAlign: "left",
           headerSearchBarOptions: {
             placement: "automatic",

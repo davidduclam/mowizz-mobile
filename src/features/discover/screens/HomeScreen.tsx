@@ -1,7 +1,7 @@
 import MoviePosterCardCarousel from "@features/movies/components/MoviePosterCardCarousel";
 import { useTvShows } from "@features/tv-shows/hooks/useTvShows";
+import ScreenBackground from "@shared/components/ScreenBackground";
 import { BlurView } from "expo-blur";
-import { LinearGradient } from "expo-linear-gradient";
 import { useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useRef } from "react";
@@ -9,6 +9,7 @@ import {
   Animated,
   Dimensions,
   FlatList,
+  Image,
   StyleSheet,
   Text,
   View,
@@ -20,6 +21,7 @@ import {
 } from "react-native-safe-area-context";
 import { useMovies } from "../../movies/hooks/useMovies";
 import MediaPosterCard from "@shared/components/MediaPosterCard";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function HomeScreen() {
   const segments = useSegments() as unknown as string[];
@@ -35,19 +37,14 @@ export default function HomeScreen() {
     topRatedTvShow.length === 0;
   const insets = useSafeAreaInsets();
   const scrollY = useRef(new Animated.Value(0)).current;
-  const headerHeight = -20;
+  const headerHeight = 35; //  Distance between text and carousel
 
   const headerOpacity = scrollY.interpolate({
-    inputRange: [0, 1],
+    inputRange: [0, 20],
     outputRange: [1, 0],
     extrapolate: "clamp",
   });
 
-  const headerTranslateY = scrollY.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, -36],
-    extrapolate: "clamp",
-  });
   const topScrimOpacity = scrollY.interpolate({
     inputRange: [0, 36],
     outputRange: [0, 1],
@@ -58,9 +55,11 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <SafeAreaView edges={["left", "right"]} className="flex-1 bg-black">
+      <ScreenBackground />
+      <SafeAreaView edges={["left", "right"]} className="flex-1 transparent">
         <StatusBar style="light" />
         <Animated.View
+          pointerEvents="none"
           style={{
             position: "absolute",
             top: insets.top,
@@ -68,10 +67,13 @@ export default function HomeScreen() {
             right: 20,
             zIndex: 10,
             opacity: headerOpacity,
-            transform: [{ translateY: headerTranslateY }],
           }}
         >
-          <Text className="text-white font-bold text-4xl">MoWizz</Text>
+          <Image
+            source={require("../../../../assets/images/mowizz-logo-transparent.png")}
+            className="w-48 h-20 self-center"
+            resizeMode="contain"
+          />
         </Animated.View>
 
         <Animated.ScrollView
