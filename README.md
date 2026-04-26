@@ -17,6 +17,7 @@ https://github.com/user-attachments/assets/56a2eb35-3ab5-446e-92c0-83ac1f64ff3c
 - Search movies and TV shows from the Search tab.
 - Movie and TV cards with posters, ratings, and year.
 - Movie and TV details modals opened from card taps.
+- Trailer playback embedded in the detail modal via a YouTube player when a trailer is available, with a backdrop image fallback.
 - Save and remove movies and TV shows to/from a personal watchlist from the detail modal.
 - Watchlist tab displaying all saved items, with loading, error, and empty states.
 - List/details loading and error states, plus TV empty state handling.
@@ -28,6 +29,7 @@ https://github.com/user-attachments/assets/56a2eb35-3ab5-446e-92c0-83ac1f64ff3c
 - [expo-router](https://expo.github.io/router/) for file-based navigation
 - [NativeWind](https://www.nativewind.dev/) for Tailwind-style styling
 - [react-native-reanimated-carousel](https://github.com/dohooo/react-native-reanimated-carousel) for the hero carousel
+- [react-native-youtube-iframe](https://github.com/LonelyCpp/react-native-youtube-iframe) for embedded trailer playback
 - [expo-blur](https://docs.expo.dev/versions/latest/sdk/blur-view/) and
   [expo-linear-gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
   for overlay/scrim effects
@@ -104,6 +106,7 @@ src/                          # Feature and shared source modules
       MediaDetailModal.tsx        # Shared detail modal (movie + TV show)
       MediaPosterCard.tsx         # Shared poster card for horizontal rails
       MediaPosterCardWatchlist.tsx # Shared poster card for the watchlist grid
+      ScreenBackground.tsx        # Shared dark background with gradient glow
 assets/                       # App icons and images
 ```
 
