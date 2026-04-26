@@ -7,9 +7,11 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 type MediaDetailModalProps = {
   id: string;
@@ -19,6 +21,7 @@ type MediaDetailModalProps = {
   tmdbId?: number;
   mediaType: "movie" | "tv-show";
   overview?: string;
+  trailerKey?: string;
   children?: React.ReactNode;
 };
 
@@ -30,12 +33,16 @@ export default function MediaDetailModal({
   tmdbId,
   mediaType,
   overview,
+  trailerKey,
   children,
 }: MediaDetailModalProps) {
   const imageOpacity = useRef(new Animated.Value(0)).current;
   const textOpacity = useRef(new Animated.Value(0)).current;
   const hasAnimatedRef = useRef(false);
   const { add, remove, isInWatchlist } = useWatchlistContext();
+  const playing = false;
+  const { width } = useWindowDimensions();
+  const trailerHeight = Math.round((width * 9) / 16);
 
   useEffect(() => {
     hasAnimatedRef.current = false;
@@ -74,17 +81,35 @@ export default function MediaDetailModal({
       ) : (
         <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
           <View>
-            <Animated.View style={{ opacity: imageOpacity }}>
-              <Image
-                source={{
-                  uri: `https://image.tmdb.org/t/p/original${backdropPath}`,
-                }}
-                className="w-full aspect-video"
-                onLoadEnd={runIntro}
-              />
-            </Animated.View>
+            {!trailerKey ? (
+              <Animated.View style={{ opacity: imageOpacity }}>
+                <Image
+                  source={{
+                    uri: `https://image.tmdb.org/t/p/original${backdropPath}`,
+                  }}
+                  className="w-full aspect-video"
+                  onLoadEnd={runIntro}
+                />
+              </Animated.View>
+            ) : (
+              <Animated.View style={{ opacity: imageOpacity }}>
+                <View
+                  style={{ height: trailerHeight, overflow: "hidden" }}
+                  className="w-full"
+                >
+                  <YoutubePlayer
+                    height={trailerHeight}
+                    width={width}
+                    play={playing}
+                    videoId={trailerKey}
+                    onReady={runIntro}
+                  />
+                </View>
+              </Animated.View>
+            )}
+
             <Animated.View
-              className="flex-col items-start justify-center mt-5 px-5"
+              className="flex-col items-center justify-center mt-5 px-5"
               style={{ opacity: textOpacity }}
             >
               {children}

@@ -16,11 +16,12 @@ export default function TvShowDetailsModal() {
       tmdbId={show?.id}
       mediaType="tv-show"
       overview={show?.overview}
+      trailerKey={show?.trailerKey}
     >
-      <Text className="font-bold color-white text-2xl self-center">
+      <Text className="font-bold color-white text-2xl w-full text-center">
         {show?.name}
       </Text>
-      <Text className="mt-2 color-white text-lg self-center">
+      <Text className="mt-2 color-white text-lg w-full text-center">
         TV show • {show?.firstAirDate?.split("-")[0]}
       </Text>
     </MediaDetailModal>
