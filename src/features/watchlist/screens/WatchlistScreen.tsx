@@ -56,7 +56,7 @@ export default function WatchlistScreen() {
   return (
     <View style={{ flex: 1 }}>
       <ScreenBackground />
-      <SafeAreaView edges={["left", "right"]} className="flex-1 transparent">
+      <SafeAreaView edges={["left", "right"]} className="flex-1 bg-transparent">
       <View className="flex-1">
         {loading ? (
           <SafeAreaView className="mt-safe">

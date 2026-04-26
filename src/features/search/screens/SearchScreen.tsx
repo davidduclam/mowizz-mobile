@@ -40,7 +40,7 @@ export default function SearchScreen() {
   return (
     <View style={{ flex: 1 }}>
       <ScreenBackground />
-      <SafeAreaView edges={["left", "right"]} className="flex-1 transparent">
+      <SafeAreaView edges={["left", "right"]} className="flex-1 bg-transparent">
         <Animated.View
           pointerEvents="none"
           style={{

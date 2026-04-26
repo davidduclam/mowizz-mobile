@@ -56,7 +56,7 @@ export default function HomeScreen() {
   return (
     <View style={{ flex: 1 }}>
       <ScreenBackground />
-      <SafeAreaView edges={["left", "right"]} className="flex-1 transparent">
+      <SafeAreaView edges={["left", "right"]} className="flex-1 bg-transparent">
         <StatusBar style="light" />
         <Animated.View
           pointerEvents="none"
