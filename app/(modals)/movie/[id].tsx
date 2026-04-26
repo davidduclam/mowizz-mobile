@@ -16,11 +16,12 @@ export default function MovieDetailsModal() {
       tmdbId={movie?.id}
       mediaType="movie"
       overview={movie?.overview}
+      trailerKey={movie?.trailerKey}
     >
-      <Text className="font-bold color-white text-2xl self-center">
+      <Text className="font-bold color-white text-2xl w-full text-center">
         {movie?.title}
       </Text>
-      <Text className="mt-2 color-white text-lg self-center">
+      <Text className="mt-2 color-white text-lg w-full text-center">
         Movie • {movie?.releaseDate?.split("-")[0]}
       </Text>
     </MediaDetailModal>

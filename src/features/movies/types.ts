@@ -6,4 +6,5 @@ export type Movie = {
   posterPath: string;
   backdropPath: string;
   voteAverage: number;
+  trailerKey: string;
 };
