@@ -1,5 +1,5 @@
 import { useWatchlistContext } from "@features/watchlist/components/WatchlistContext";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -40,7 +40,7 @@ export default function MediaDetailModal({
   const textOpacity = useRef(new Animated.Value(0)).current;
   const hasAnimatedRef = useRef(false);
   const { add, remove, isInWatchlist } = useWatchlistContext();
-  const [playing] = useState(false);
+  const playing = false;
   const { width } = useWindowDimensions();
   const trailerHeight = Math.round((width * 9) / 16);
 

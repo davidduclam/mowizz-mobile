@@ -6,5 +6,5 @@ export type TvShow = {
   posterPath: string;
   backdropPath: string;
   voteAverage: number;
-  trailerKey: string;
+  trailerKey?: string;
 };
