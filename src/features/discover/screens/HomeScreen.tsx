@@ -241,7 +241,7 @@ export default function HomeScreen() {
         tint="dark"
         pointerEvents="none"
         style={[
-          StyleSheet.absoluteFillObject,
+          StyleSheet.absoluteFill,
           { opacity: isModalOpen ? 1 : 0 },
         ]}
       />

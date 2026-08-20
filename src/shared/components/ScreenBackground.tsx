@@ -5,13 +5,13 @@ export default function ScreenBackground() {
   return (
     <>
       <View
-        style={[StyleSheet.absoluteFillObject, { backgroundColor: "#09090E" }]}
+        style={[StyleSheet.absoluteFill, { backgroundColor: "#09090E" }]}
       />
       <LinearGradient
         colors={["rgba(59,82,156,0.22)", "rgba(59,82,156,0.08)", "transparent"]}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 1 }}
-        style={[StyleSheet.absoluteFillObject, { bottom: "45%" }]}
+        style={[StyleSheet.absoluteFill, { bottom: "45%" }]}
         pointerEvents="none"
       />
     </>
